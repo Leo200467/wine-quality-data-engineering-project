@@ -1,0 +1,7 @@
+.env
+ssh
+.pem
+/airflow/logs/
+airflow/airflow.env
+terraform-azure/.terraform
+airflow/tests.ipynb
