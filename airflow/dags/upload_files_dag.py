@@ -39,12 +39,25 @@ def initialize_storage_account(storage_connection_string):
         global service_client
 
         service_client = DataLakeServiceClient.from_connection_string(storage_connection_string)
+
+        return service_client
     
     except Exception as e:
         print(e)
 
 
-def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str, directory: str, file_system: str):
+def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str, directory: str, file_system: str, storage_connection_string: str):
+    
+    try:  
+        global service_client
+
+        service_client = DataLakeServiceClient.from_connection_string(storage_connection_string)
+
+        return service_client
+    
+    except Exception as e:
+        print(e)
+
     try:
 
         file_system_client = service_client.get_file_system_client(file_system)
@@ -85,12 +98,6 @@ with models.DAG(
                         """
     )
 
-    connect_to_account = PythonOperator(
-        task_id="connecting-to-azure-dl",
-        python_callable=initialize_storage_account,
-        op_kwargs=dict(storage_connection_string=STORAGE_CONNECTION_STRING)
-    )
-
     upload_red_wine_csv = PythonOperator(
         task_id="upload-red-wine-dataset",
         python_callable=upload_file_to_directory_bulk,
@@ -98,7 +105,8 @@ with models.DAG(
             local_file_path={RED_WINE_PATH},
             uploaded_file_name="winequality-red.csv",
             directory="data-lake",
-            file_system="data-lake"
+            file_system="data-lake",
+            storage_connection_string=STORAGE_CONNECTION_STRING
         )
     )
 
@@ -109,11 +117,12 @@ with models.DAG(
             local_file_path={WHITE_WINE_PATH},
             uploaded_file_name="winequality-white.csv",
             directory="data-lake",
-            file_system="data-lake"
+            file_system="data-lake",
+            storage_connection_string=STORAGE_CONNECTION_STRING
         )
     )
 
-    download_red_wine_dataset >> download_white_wine_dataset >> connect_to_account >> upload_red_wine_csv >> upload_white_wine_csv
+    download_red_wine_dataset >> download_white_wine_dataset >> upload_red_wine_csv >> upload_white_wine_csv
 
 
 
