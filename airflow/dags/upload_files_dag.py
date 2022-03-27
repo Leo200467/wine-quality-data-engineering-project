@@ -24,8 +24,6 @@ from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from azure.storage.filedatalake import DataLakeServiceClient
 
-STORAGE_ACCOUNT_KEY = os.getenv("STORAGE_ACCOUNT_KEY")
-STORAGE_ACCOUNT_NAME = os.getenv("STORAGE_ACCOUNT_NAME")
 STORAGE_CONNECTION_STRING = os.getenv("STORAGE_CONNECTION_STRING")
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 RED_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
@@ -35,6 +33,9 @@ WHITE_WINE_PATH = f"{AIRFLOW_HOME}/winequality-white.csv"
 
 def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str, directory: str, file_system: str, storage_connection_string: str):
     
+    if storage_connection_string == "":
+        raise Exception("Storage connection string is empty. Change the variable in airflow.env file")
+
     try:  
         global service_client
 

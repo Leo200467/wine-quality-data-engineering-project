@@ -160,27 +160,32 @@ resource "azurerm_storage_share" "sharedstorage" {
 resource "azurerm_storage_share_file" "dockerfile" {
     name             = "Dockerfile"
     storage_share_id = azurerm_storage_share.sharedstorage.id
-    source           = "D:/data-engineering-project/airflow/Dockerfile"
+    source           = "../airflow/Dockerfile"
 }
 resource "azurerm_storage_share_file" "entrypoint" {
     name             = "entrypoint.sh"
     storage_share_id = azurerm_storage_share.sharedstorage.id
-    source           = "D:/data-engineering-project/airflow/scripts/entrypoint.sh"
+    source           = "../airflow/scripts/entrypoint.sh"
 }
 resource "azurerm_storage_share_file" "setup" {
     name             = "setup.sh"
     storage_share_id = azurerm_storage_share.sharedstorage.id
-    source           = "D:/data-engineering-project/scripts/setup.sh"
+    source           = "../scripts/setup.sh"
 }
 resource "azurerm_storage_share_file" "docker-compose" {
     name             = "docker-compose.yml"
     storage_share_id = azurerm_storage_share.sharedstorage.id
-    source           = "D:/data-engineering-project/airflow/docker-compose.yml"
+    source           = "../airflow/docker-compose.yml"
 }
 resource "azurerm_storage_share_file" "airflow-env" {
     name             = "airflow.env"
     storage_share_id = azurerm_storage_share.sharedstorage.id
-    source           = "D:/data-engineering-project/airflow/airflow.env"
+    source           = "../airflow/airflow.env"
+}
+resource "azurerm_storage_share_file" "upload-files-dag" {
+    name             = "upload_files_dag.py"
+    storage_share_id = azurerm_storage_share.sharedstorage.id
+    source           = "../airflow/dags/upload_files_dag.py"
 }
 
 resource "tls_private_key" "linux_key" {
