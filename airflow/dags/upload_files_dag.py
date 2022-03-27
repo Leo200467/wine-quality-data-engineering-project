@@ -33,32 +33,12 @@ WHITE_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-database
 RED_WINE_PATH = f"{AIRFLOW_HOME}/winequality-red.csv"
 WHITE_WINE_PATH = f"{AIRFLOW_HOME}/winequality-white.csv"
 
-def initialize_storage_account(storage_connection_string):
-    
-    try:  
-        global service_client
-
-        service_client = DataLakeServiceClient.from_connection_string(storage_connection_string)
-
-        return service_client
-    
-    except Exception as e:
-        print(e)
-
-
 def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str, directory: str, file_system: str, storage_connection_string: str):
     
     try:  
         global service_client
 
         service_client = DataLakeServiceClient.from_connection_string(storage_connection_string)
-
-        return service_client
-    
-    except Exception as e:
-        print(e)
-
-    try:
 
         file_system_client = service_client.get_file_system_client(file_system)
 
@@ -75,8 +55,6 @@ def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str,
     except Exception as e:
       print(e)
 
-
-
 with models.DAG(
     "data-ingestion-to-data-lake",
     start_date=datetime(2021, 1, 1),
@@ -87,14 +65,14 @@ with models.DAG(
     download_white_wine_dataset = BashOperator(
         task_id="download-white-wine-dataset",
         bash_command = f"""
-                        curl -SL {WHITE_WINE_DATASET_URL} > {AIRFLOW_HOME}/white_wine.csv
+                        curl -SL {WHITE_WINE_DATASET_URL} > {WHITE_WINE_PATH}
                         """
     )
 
     download_red_wine_dataset = BashOperator(
         task_id="download-red-wine-dataset",
         bash_command = f"""
-                        curl -SL {RED_WINE_DATASET_URL} > {AIRFLOW_HOME}/red_wine.csv
+                        curl -SL {RED_WINE_DATASET_URL} > {RED_WINE_PATH}
                         """
     )
 
@@ -102,7 +80,7 @@ with models.DAG(
         task_id="upload-red-wine-dataset",
         python_callable=upload_file_to_directory_bulk,
         op_kwargs=dict(
-            local_file_path={RED_WINE_PATH},
+            local_file_path=RED_WINE_PATH,
             uploaded_file_name="winequality-red.csv",
             directory="data-lake",
             file_system="data-lake",
@@ -114,7 +92,7 @@ with models.DAG(
         task_id="upload-white-wine-dataset",
         python_callable=upload_file_to_directory_bulk,
         op_kwargs=dict(
-            local_file_path={WHITE_WINE_PATH},
+            local_file_path=WHITE_WINE_PATH,
             uploaded_file_name="winequality-white.csv",
             directory="data-lake",
             file_system="data-lake",
