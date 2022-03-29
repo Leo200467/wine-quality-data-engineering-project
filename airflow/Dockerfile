@@ -13,8 +13,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-e", "-u", "-x", "-c"]
 
 WORKDIR $AIRFLOW_HOME
 
-RUN /usr/local/bin/python -m pip install --upgrade pip
-RUN mcr.microsoft.com/azure-cli
+RUN sudo /usr/local/bin/python -m pip install --upgrade pip
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 # RUN pip uninstall  --yes azure-storage && pip install -U azure-storage-blob apache-airflow-providers-microsoft-azure==1.1.0
 # RUN pip install --no-cache-dir -r requirements.txt
 # RUN pip install azure-storage-file-datalake

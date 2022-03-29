@@ -58,10 +58,11 @@ def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str,
 
 with models.DAG(
     "data-ingestion-to-data-lake",
-    start_date=datetime(2021, 1, 1),
-    catchup=False,
-    schedule_interval=None,
+    start_date=datetime.now(),
+    catchup=True,
+    schedule_interval="@once",
     tags=['ingestion'],
+    is_paused_upon_creation=False,
 ) as dag:
     download_white_wine_dataset = BashOperator(
         task_id="download-white-wine-dataset",

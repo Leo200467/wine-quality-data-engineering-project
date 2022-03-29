@@ -21,7 +21,6 @@ sudo mv docker-compose.yml /home/azureuser/airflow
 sudo mv airflow.env /home/azureuser/airflow
 sudo mv entrypoint.sh /home/azureuser/airflow/scripts
 sudo mv upload_files_dag.py /home/azureuser/airflow/dags
-sudo mv requirements.txt /home/azureuser/airflow
 cd /home/azureuser/airflow
 sudo chmod u=rwx,g=rwx,o=rwx /home/azureuser/airflow/logs
 sudo chmod u=rwx,g=rwx,o=rwx /home/azureuser/airflow/dags
