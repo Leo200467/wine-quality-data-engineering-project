@@ -5,3 +5,4 @@ ssh
 terraform-azure/.terraform
 airflow/tests.ipynb
 terraform-azure/.ssh
+virtualenv

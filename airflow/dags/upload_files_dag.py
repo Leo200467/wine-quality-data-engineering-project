@@ -24,12 +24,17 @@ from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from azure.storage.filedatalake import DataLakeServiceClient
 
+
 STORAGE_CONNECTION_STRING = os.getenv("STORAGE_CONNECTION_STRING")
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
 RED_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
 WHITE_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv"
+ROSE_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-rose.csv"
+SPARKLING_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-sparkling.csv"
 RED_WINE_PATH = f"{AIRFLOW_HOME}/winequality-red.csv"
 WHITE_WINE_PATH = f"{AIRFLOW_HOME}/winequality-white.csv"
+ROSE_WINE_PATH = f"{AIRFLOW_HOME}/winequality-rose.csv"
+SPARKLING_WINE_PATH = f"{AIRFLOW_HOME}/winequality-sparkling.csv"
 
 def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str, directory: str, file_system: str, storage_connection_string: str):
     
@@ -78,6 +83,20 @@ with models.DAG(
                         """
     )
 
+    download_rose_wine_dataset = BashOperator(
+        task_id="download-rose-wine-dataset",
+        bash_command = f"""
+                        curl -SL {ROSE_WINE_DATASET_URL} > {ROSE_WINE_PATH}
+                        """
+    )
+
+    download_sparkling_wine_dataset = BashOperator(
+        task_id="download-sparkling-wine-dataset",
+        bash_command = f"""
+                        curl -SL {SPARKLING_WINE_DATASET_URL} > {SPARKLING_WINE_PATH}
+                        """
+    )
+
     upload_red_wine_csv = PythonOperator(
         task_id="upload-red-wine-dataset",
         python_callable=upload_file_to_directory_bulk,
@@ -96,6 +115,30 @@ with models.DAG(
         op_kwargs=dict(
             local_file_path=WHITE_WINE_PATH,
             uploaded_file_name="winequality-white.csv",
+            directory="data-lake",
+            file_system="data-lake",
+            storage_connection_string=STORAGE_CONNECTION_STRING
+        )
+    )
+
+    upload_rose_wine_csv = PythonOperator(
+        task_id="upload-rose-wine-dataset",
+        python_callable=upload_file_to_directory_bulk,
+        op_kwargs=dict(
+            local_file_path=ROSE_WINE_PATH,
+            uploaded_file_name="winequality-rose.csv",
+            directory="data-lake",
+            file_system="data-lake",
+            storage_connection_string=STORAGE_CONNECTION_STRING
+        )
+    )
+
+    upload_sparkling_wine_csv = PythonOperator(
+        task_id="upload-sparkling-wine-dataset",
+        python_callable=upload_file_to_directory_bulk,
+        op_kwargs=dict(
+            local_file_path=SPARKLING_WINE_PATH,
+            uploaded_file_name="winequality-sparkling.csv",
             directory="data-lake",
             file_system="data-lake",
             storage_connection_string=STORAGE_CONNECTION_STRING
