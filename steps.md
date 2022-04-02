@@ -71,6 +71,7 @@ The main file will setup the following things for you in Azure Cloud:
 * Network Interface named "myNIC" for public IP address and access
 * OS Disk 30 Gb Premium SSD named "myOsDisk" for OS Storage
 * Standard Public IP Address named "myPublicIP"
+* Azure Cosmos DB SQL Serverless istance, with a container named "wine-container"
 * Virtual Network manager named "myVnet" used to share access between VM and Storages
 
 In your terminal, go to 'terraform-azure' folder and run
@@ -134,7 +135,8 @@ Now, follow this steps:
 * In your VM, go to /home/azureuser/airflow and type if you are accessing with SSH + VSCode ```code airflow.env``` or other type of editing command(vi, nano);
 * Insert your Connection string as a value to the variable STORAGE_CONNECTION_STRING;
 
-Now you are ready to go. 
+Now you are ready to go.
+
 Again in your terminal:
 ```
 cd /home/azureuser/airflow
@@ -161,7 +163,6 @@ With access to Airflow admin panel, you can type "admin" for both user and passw
 You should be able to the "upload_files_dag" running and "future_dag" too.
 
 They are simple DAGs to get files to the container 'data-lake' in Azure Storage.
-
 
 # Sources
 
