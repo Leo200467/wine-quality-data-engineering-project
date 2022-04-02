@@ -103,7 +103,7 @@ with models.DAG(
         op_kwargs=dict(
             local_file_path=RED_WINE_PATH,
             uploaded_file_name="winequality-red.csv",
-            directory="data-lake",
+            directory="wine-quality-data",
             file_system="data-lake",
             storage_connection_string=STORAGE_CONNECTION_STRING
         )
@@ -115,7 +115,7 @@ with models.DAG(
         op_kwargs=dict(
             local_file_path=WHITE_WINE_PATH,
             uploaded_file_name="winequality-white.csv",
-            directory="data-lake",
+            directory="wine-quality-data",
             file_system="data-lake",
             storage_connection_string=STORAGE_CONNECTION_STRING
         )
@@ -127,7 +127,7 @@ with models.DAG(
         op_kwargs=dict(
             local_file_path=ROSE_WINE_PATH,
             uploaded_file_name="winequality-rose.csv",
-            directory="data-lake",
+            directory="wine-quality-data",
             file_system="data-lake",
             storage_connection_string=STORAGE_CONNECTION_STRING
         )
@@ -139,7 +139,7 @@ with models.DAG(
         op_kwargs=dict(
             local_file_path=SPARKLING_WINE_PATH,
             uploaded_file_name="winequality-sparkling.csv",
-            directory="data-lake",
+            directory="wine-quality-data",
             file_system="data-lake",
             storage_connection_string=STORAGE_CONNECTION_STRING
         )
