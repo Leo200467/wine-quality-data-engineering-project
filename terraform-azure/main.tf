@@ -201,6 +201,75 @@ resource "local_file" "linuxkey" {
   content=tls_private_key.linux_key.private_key_pem 
 }
 
+
+# Create Cosmos DB to operate as a Data Warehouse
+
+resource "random_integer" "ri" {
+  min = 10000
+  max = 99999
+}
+
+resource "azurerm_cosmosdb_account" "db" {
+  name                = "cosmos-db-${random_integer.ri.result}"
+  location            = var.cosmos-location
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+  offer_type          = "Standard"
+  kind                = "GlobalDocumentDB"
+
+  enable_automatic_failover = true
+
+  capabilities {
+    name = "EnableServerless"
+  }
+
+  consistency_policy {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+
+  geo_location {
+    location          = var.cosmos-location
+    failover_priority = 0
+  }
+}
+
+resource "azurerm_cosmosdb_sql_database" "wine-database" {
+  name                = "wine-data-database"
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+  account_name        = azurerm_cosmosdb_account.db.name
+
+  depends_on = [azurerm_cosmosdb_account.db]
+}
+
+resource "azurerm_cosmosdb_sql_container" "sql-container" {
+  name                  = "wine-data-container"
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+  account_name        = azurerm_cosmosdb_account.db.name
+  database_name         = azurerm_cosmosdb_sql_database.wine-database.name
+  partition_key_path    = "/definition/id"
+
+  indexing_policy {
+    indexing_mode = "Consistent"
+
+    included_path {
+      path = "/*"
+    }
+
+    included_path {
+      path = "/included/?"
+    }
+
+    excluded_path {
+      path = "/excluded/?"
+    }
+  }
+
+  unique_key {
+    paths = ["/definition/idlong", "/definition/idshort"]
+  }
+}
+
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
     name                  = var.project
