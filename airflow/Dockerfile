@@ -20,6 +20,13 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 # RUN pip install azure-storage-file-datalake
 # RUN export PATH=/Users/<you>/Library/Python/3.8/bin:$PATH
 
+RUN sudo apt update
+RUN sudo apt install default-jdk -y
+RUN export JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64'
+RUN export SPARK_HOME='/opt/spark'
+
+COPY source_data/* /opt/airflow
+
 COPY scripts scripts
 RUN chmod +x scripts
 

@@ -22,6 +22,7 @@ services:
             - airflow.env
         environment:
             _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- apache-airflow apache-airflow-providers-microsoft-azure azure-storage-file-datalake pyspark}
+            AIRFLOW__CORE__ENABLE_XCOM_PICKLING: 'true'
         volumes:
             - ./dags:/opt/airflow/dags
             - ./logs:/opt/airflow/logs
@@ -38,7 +39,8 @@ services:
         env_file:
             - airflow.env
         environment:
-            _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- apache-airflow apache-airflow-providers-microsoft-azure azure-storage-file-datalake pyspark}
+            _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- apache-airflow apache-airflow-providers-microsoft-azure azure-storage-file-datalake pyspark py4j}
+            AIRFLOW__CORE__ENABLE_XCOM_PICKLING: 'true'
         volumes:
             - ./dags:/opt/airflow/dags
             - ./logs:/opt/airflow/logs
