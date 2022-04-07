@@ -178,6 +178,14 @@ They are simple DAGs to get files to the container 'data-lake' in Azure Storage.
 
 ##### https://stackoverflow.com/questions/59412917/errno-13-permission-denied-when-airflow-tries-to-write-to-logs
 
+##### https://stackoverflow.com/questions/61514887/how-to-trigger-a-dag-on-the-success-of-a-another-dag-in-airflow-using-python
+
+##### https://sparkbyexamples.com/pyspark/pyspark-exception-java-gateway-process-exited-before-sending-the-driver-its-port-number/
+
+# DATASET
+
+## https://www.kaggle.com/datasets/budnyak/wine-rating-and-price
+
 
 az vm deallocate --resource-group myResourceGroup --name data-engineering-project
 
