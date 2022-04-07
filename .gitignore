@@ -6,10 +6,7 @@ terraform-azure/.terraform
 airflow/tests.ipynb
 terraform-azure/.ssh
 virtualenv
-source_data/red_wine.json
-source_data/rose_wine.json
-source_data/sparkling_wine.json
-source_data/white_wine.json
 terraform-azure/main.tfplan
 terraform-azure/terraform.tfstate
 terraform-azure/terraform.tfstate.backup
+airflow/processed_files/*
