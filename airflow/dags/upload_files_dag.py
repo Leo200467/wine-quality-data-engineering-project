@@ -21,20 +21,17 @@ from datetime import datetime
 
 from airflow import models
 from airflow.operators.python import PythonOperator
-from airflow.operators.bash import BashOperator
 from azure.storage.filedatalake import DataLakeServiceClient
+from airflow.operators.dagrun_operator import TriggerDagRunOperator
+from airflow.utils.trigger_rule import TriggerRule
 
 
 STORAGE_CONNECTION_STRING = os.getenv("STORAGE_CONNECTION_STRING")
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
-RED_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
-WHITE_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv"
-ROSE_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-rose.csv"
-SPARKLING_WINE_DATASET_URL="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-sparkling.csv"
-RED_WINE_PATH = f"{AIRFLOW_HOME}/winequality-red.csv"
-WHITE_WINE_PATH = f"{AIRFLOW_HOME}/winequality-white.csv"
-ROSE_WINE_PATH = f"{AIRFLOW_HOME}/winequality-rose.csv"
-SPARKLING_WINE_PATH = f"{AIRFLOW_HOME}/winequality-sparkling.csv"
+RED_WINE_PATH = f"{AIRFLOW_HOME}/Red.csv"
+WHITE_WINE_PATH = f"{AIRFLOW_HOME}/White.csv"
+ROSE_WINE_PATH = f"{AIRFLOW_HOME}/Rose.csv"
+SPARKLING_WINE_PATH = f"{AIRFLOW_HOME}/Sparkling.csv"
 
 def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str, directory: str, file_system: str, storage_connection_string: str):
     
@@ -69,33 +66,6 @@ with models.DAG(
     tags=['ingestion'],
     is_paused_upon_creation=False,
 ) as dag:
-    download_white_wine_dataset = BashOperator(
-        task_id="download-white-wine-dataset",
-        bash_command = f"""
-                        curl -SL {WHITE_WINE_DATASET_URL} > {WHITE_WINE_PATH}
-                        """
-    )
-
-    download_red_wine_dataset = BashOperator(
-        task_id="download-red-wine-dataset",
-        bash_command = f"""
-                        curl -SL {RED_WINE_DATASET_URL} > {RED_WINE_PATH}
-                        """
-    )
-
-    download_rose_wine_dataset = BashOperator(
-        task_id="download-rose-wine-dataset",
-        bash_command = f"""
-                        curl -SL {ROSE_WINE_DATASET_URL} > {ROSE_WINE_PATH}
-                        """
-    )
-
-    download_sparkling_wine_dataset = BashOperator(
-        task_id="download-sparkling-wine-dataset",
-        bash_command = f"""
-                        curl -SL {SPARKLING_WINE_DATASET_URL} > {SPARKLING_WINE_PATH}
-                        """
-    )
 
     upload_red_wine_csv = PythonOperator(
         task_id="upload-red-wine-dataset",
@@ -145,7 +115,13 @@ with models.DAG(
         )
     )
 
-    download_red_wine_dataset >> download_white_wine_dataset >> upload_red_wine_csv >> upload_white_wine_csv
+    trigger_process = TriggerDagRunOperator(
+        task_id='trigger', 
+        trigger_rule=TriggerRule.ALL_SUCCESS, 
+        trigger_dag_id="process-wine-dataset",
+        reset_dag_run=True)
+
+    upload_red_wine_csv >> upload_white_wine_csv >> upload_rose_wine_csv >> upload_sparkling_wine_csv >> trigger_process
 
 
 
