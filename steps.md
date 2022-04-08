@@ -15,7 +15,7 @@ The amount of free credits is more than enough.
 After Azure CLI is installed, type 'az login'. This should prompt a Microsoft login page in your browser.
 To confirm your current account, type 'az account show' and copy your 'id', this is your subscription id.
 
-### Service Principal
+* ### Service Principal
 
 For automated build systems, Microsoft suggest creating a Service Principal for restricting permissions of this service.
 After confirming your current account with 'az account show', type the following:
@@ -38,7 +38,7 @@ The output should look like this:
 You can choose any name for your service principal. 
 Store appId, password and tenant values, they will be needed for the next steps.
 
-### Applying service credentials as environment variables
+* ### Applying service credentials as environment variables
 
 Look for your bashrc file, it should be found in ~/.bashrc or C:\Users\your-user in Windows.
 If you are using Windows and didn't found the file, create it. Name it bashrc.
@@ -61,7 +61,7 @@ You will need Terraform installed in your computer.
 If you don't have Terraform installed, follow Hashicorp tutorial in this link:
 * https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started
 
-### Terraform Initialization
+* ### Terraform Initialization
 
 The main file will setup the following things for you in Azure Cloud:
 
@@ -81,7 +81,7 @@ terraform init
 
 It should install a .terraform folder and updated it with all needed packages.
 
-### Terraform Plan
+* ### Terraform Plan
 
 After initialization, you can run the following command in your terminal:
 ```
@@ -90,7 +90,7 @@ terraform plan -out main.tfplan
 
 This command will output a Terraform plan to be applied latter.
 
-### Terraform Apply
+* ### Terraform Apply
 
 With your plan made and ready, time to apply it and see all infrastructure magic happens.
 In your terminal:
@@ -102,7 +102,7 @@ This apply will output a public IP Adress, you will need this IP for the next st
 
 You can now go to your [Azure Dashboard](https://portal.azure.com/#blade/HubsExtension/BrowseAll) and see all created resources. 
 
-### The SSH Key
+* ### The SSH Key
 
 The Terraform process will also create a SSH key named "linuxkey.pem" in your ~/.ssh or C:\Users\your-user\.ssh folder.
 This is the SSH key that will be needed to connect to our VM in Azure.
@@ -131,9 +131,11 @@ Now, follow this steps:
 * In your terminal, "cd /mnt/sharedstorage";
 * In your terminal, "sudo bash setup.sh". This bash script will do the heavy lifting of moving files, permissions and folder structure in this VM;
 * Go to back to your [Azure Resources Panel](https://portal.azure.com/#blade/HubsExtension/BrowseAll) and into your "storageXXXXXX";
-* Then, look for "Security + Network" tab, you can click on "Access Keys" and copy your Connection string;
+* Then, look for "Security + Network" tab, you can click on "Access Keys" and copy your PRIMARY CONNECTION STRING;
+* Go to back to your [Azure Resources Panel](https://portal.azure.com/#blade/HubsExtension/BrowseAll) and into your "cosmos-db-xxxxx";
+* Then, look for "Keys" tab and copy your PRIMARY CONNECTION STRING;
 * In your VM, go to /home/azureuser/airflow and type if you are accessing with SSH + VSCode ```code airflow.env``` or other type of editing command(vi, nano);
-* Insert your Connection string as a value to the variable STORAGE_CONNECTION_STRING;
+* Insert your Connection string as a value to the variable STORAGE_CONNECTION_STRING and COSMOS_CONNECTION_STRING;
 
 Now you are ready to go.
 
@@ -166,27 +168,22 @@ They are simple DAGs to get files to the container 'data-lake' in Azure Storage.
 
 # Sources
 
-##### https://learn.hashicorp.com/tutorials/terraform/azure-build?in=terraform/azure-get-started
+* ### https://learn.hashicorp.com/tutorials/terraform/azure-build?in=terraform/azure-get-started
 
-##### https://docs.microsoft.com/en-us/azure/developer/terraform/create-linux-virtual-machine-with-infrastructure
+* ### https://docs.microsoft.com/en-us/azure/developer/terraform/create-linux-virtual-machine-with-infrastructure
 
-##### https://docs.microsoft.com/en-us/azure/developer/terraform/get-started-windows-bash?tabs=bash
+* ### https://docs.microsoft.com/en-us/azure/developer/terraform/get-started-windows-bash?tabs=bash
 
-##### https://stackoverflow.com/questions/71292185/error-host-for-provisioner-cannot-be-empty
+* ### https://stackoverflow.com/questions/71292185/error-host-for-provisioner-cannot-be-empty
 
-##### https://www.techcrumble.net/2019/02/how-to-create-an-azure-file-share-and-connect-to-a-linux-virtual-machine/
+* ### https://www.techcrumble.net/2019/02/how-to-create-an-azure-file-share-and-connect-to-a-linux-virtual-machine/
 
-##### https://stackoverflow.com/questions/59412917/errno-13-permission-denied-when-airflow-tries-to-write-to-logs
+* ### https://stackoverflow.com/questions/59412917/errno-13-permission-denied-when-airflow-tries-to-write-to-logs
 
-##### https://stackoverflow.com/questions/61514887/how-to-trigger-a-dag-on-the-success-of-a-another-dag-in-airflow-using-python
+* ### https://stackoverflow.com/questions/61514887/how-to-trigger-a-dag-on-the-success-of-a-another-dag-in-airflow-using-python
 
-##### https://sparkbyexamples.com/pyspark/pyspark-exception-java-gateway-process-exited-before-sending-the-driver-its-port-number/
+* ### https://sparkbyexamples.com/pyspark/pyspark-exception-java-gateway-process-exited-before-sending-the-driver-its-port-number/
 
 # DATASET
 
 ## https://www.kaggle.com/datasets/budnyak/wine-rating-and-price
-
-
-az vm deallocate --resource-group myResourceGroup --name data-engineering-project
-
-Deallocate VMs and stop billing
