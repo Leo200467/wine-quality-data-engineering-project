@@ -25,9 +25,14 @@ RUN sudo apt install default-jdk -y
 RUN export JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64'
 RUN export SPARK_HOME='/opt/spark'
 
-COPY source_data/* /opt/airflow
+COPY source_data/* /opt/airflow/source_data/
+
+RUN mkdir processed_files
 
 COPY scripts scripts
 RUN chmod +x scripts
+
+RUN  sudo chmod u=rwx,g=rwx,o=rwx processed_files
+RUN  sudo chmod u=rwx,g=rwx,o=rwx source_data
 
 USER $AIRFLOW_UID
