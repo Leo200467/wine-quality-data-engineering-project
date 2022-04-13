@@ -187,6 +187,31 @@ resource "azurerm_storage_share_file" "upload-files-dag" {
     storage_share_id = azurerm_storage_share.sharedstorage.id
     source           = "../airflow/dags/upload_files_dag.py"
 }
+resource "azurerm_storage_share_file" "transform-data-dag" {
+    name             = "transform_data_dag.py"
+    storage_share_id = azurerm_storage_share.sharedstorage.id
+    source           = "../airflow/dags/transform_data_dag.py"
+}
+resource "azurerm_storage_share_file" "red-wine-data" {
+    name             = "Red.csv"
+    storage_share_id = azurerm_storage_share.sharedstorage.id
+    source           = "../airflow/source_data/Red.csv"
+}
+resource "azurerm_storage_share_file" "rose-wine-data" {
+    name             = "Rose.csv"
+    storage_share_id = azurerm_storage_share.sharedstorage.id
+    source           = "../airflow/source_data/Rose.csv"
+}
+resource "azurerm_storage_share_file" "sparkling-wine-data" {
+    name             = "Sparkling.csv"
+    storage_share_id = azurerm_storage_share.sharedstorage.id
+    source           = "../airflow/source_data/Sparkling.csv"
+}
+resource "azurerm_storage_share_file" "white-wine-data" {
+    name             = "White.csv"
+    storage_share_id = azurerm_storage_share.sharedstorage.id
+    source           = "../airflow/source_data/White.csv"
+}
 
 resource "tls_private_key" "linux_key" {
   algorithm = "RSA"
@@ -276,7 +301,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
     location              = var.location
     resource_group_name   = azurerm_resource_group.myterraformgroup.name
     network_interface_ids = [azurerm_network_interface.myterraformnic.id]
-    size                  = "Standard_DS2"
+    size                  = "Standard_DS3"
 
     os_disk {
         name              = "myOsDisk"
