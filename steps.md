@@ -1,3 +1,9 @@
+# Welcome! Thanks for trying to reproduce this project!
+
+First things first, you will need some things.
+
+I recommend you to just clone this repo as all folder structure is ready to go. 
+
 # Bash
 
 This tutorial was made using MINGW64 in Windows 10.
@@ -61,7 +67,7 @@ You will need Terraform installed in your computer.
 If you don't have Terraform installed, follow Hashicorp tutorial in this link:
 * https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started
 
-* ### Terraform Initialization
+### Terraform Initialization
 
 The main file will setup the following things for you in Azure Cloud:
 

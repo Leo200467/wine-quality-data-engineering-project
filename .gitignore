@@ -11,3 +11,4 @@ terraform-azure/terraform.tfstate
 terraform-azure/terraform.tfstate.backup
 airflow/processed_files/*
 .vscode
+airflow/dags/__pycache__
