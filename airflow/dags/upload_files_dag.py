@@ -28,10 +28,10 @@ from airflow.utils.trigger_rule import TriggerRule
 
 STORAGE_CONNECTION_STRING = os.getenv("STORAGE_CONNECTION_STRING")
 AIRFLOW_HOME = os.getenv("AIRFLOW_HOME")
-RED_WINE_PATH = f"{AIRFLOW_HOME}/Red.csv"
-WHITE_WINE_PATH = f"{AIRFLOW_HOME}/White.csv"
-ROSE_WINE_PATH = f"{AIRFLOW_HOME}/Rose.csv"
-SPARKLING_WINE_PATH = f"{AIRFLOW_HOME}/Sparkling.csv"
+RED_WINE_PATH = f"{AIRFLOW_HOME}/source_data/Red.csv"
+WHITE_WINE_PATH = f"{AIRFLOW_HOME}/source_data/White.csv"
+ROSE_WINE_PATH = f"{AIRFLOW_HOME}/source_data/Rose.csv"
+SPARKLING_WINE_PATH = f"{AIRFLOW_HOME}/source_data/Sparkling.csv"
 
 def upload_file_to_directory_bulk(local_file_path: str, uploaded_file_name: str, directory: str, file_system: str, storage_connection_string: str):
     

@@ -15,21 +15,17 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import json
 import os
 import uuid
 from datetime import datetime
 
 from airflow import models
 from airflow.operators.python import PythonOperator
-from airflow.sensors.filesystem import FileSensor
-
 from azure.cosmos import *
 from azure.cosmos import CosmosClient
 from pyspark.sql import SparkSession, types
 from pyspark.sql.functions import lit
-from pyspark.sql.functions import lit, monotonically_increasing_id
-from azure.cosmos import CosmosClient 
-import json
 
 DATABASE_NAME = "wine-data-database"
 CONTAINER_NAME = "wine-data-container"
@@ -48,7 +44,7 @@ def process_csv(dataframes, categories):
         category = category.split("_")[0].title()
         
         new_dataframe = dataframe.groupBy('Country', 'Region', 'Winery') \
-                                 .avg("Rating", "Price") \
+                                 .avg("Rating", "Price", "NumberOfRatings") \
                                  .sort("Country")
 
         new_dataframe = new_dataframe.withColumn("category", lit(category))
@@ -63,7 +59,7 @@ def process_csv(dataframes, categories):
 
         df_dict = dfJson.to_dict(orient="records")
 
-        with open(f"opt/airflow/{category}.json", 'w') as f:
+        with open(f"/opt/airflow/processed_files/{category}.json", 'w') as f:
             json.dump(df_dict, f, indent=4)
         
         json_paths.append(f'{category}.json')
@@ -74,7 +70,7 @@ def send_files_to_cosmos(file_path: str, database_name: str, container_name: str
 
     cosmos_client = CosmosClient.from_connection_string(cosmos_connection_string)
 
-    with open(f"opt/airflow/{file_path}", 'r', encoding="UTF-8") as file:
+    with open(f"/opt/airflow/processed_files/{file_path}.json", 'r', encoding="UTF-8") as file:
         file_as_json = json.load(file)
 
     for dicts in file_as_json:
@@ -86,15 +82,15 @@ with models.DAG(
     start_date=datetime.now(),
     catchup=True,
     schedule_interval="@once",
-    tags=['ingestion'],
+    tags=['transformation'],
     render_template_as_native_obj=True,
     is_paused_upon_creation=False
 ) as dag:
 
-    RED_WINE_PATH = f"{AIRFLOW_HOME}/Red.csv"
-    WHITE_WINE_PATH = f"{AIRFLOW_HOME}/White.csv"
-    ROSE_WINE_PATH = f"{AIRFLOW_HOME}/Rose.csv"
-    SPARKLING_WINE_PATH = f"{AIRFLOW_HOME}/Sparkling.csv"
+    RED_WINE_PATH = f"{AIRFLOW_HOME}/source_data/Red.csv"
+    WHITE_WINE_PATH = f"{AIRFLOW_HOME}/source_data/White.csv"
+    ROSE_WINE_PATH = f"{AIRFLOW_HOME}/source_data/Rose.csv"
+    SPARKLING_WINE_PATH = f"{AIRFLOW_HOME}/source_data/Sparkling.csv"
 
     spark = SparkSession.builder \
         .master("local[*]") \
@@ -107,7 +103,7 @@ with models.DAG(
         types.StructField('Region', types.StringType(), True),
         types.StructField('Winery', types.StringType(), True),
         types.StructField('Rating', types.FloatType(), True),
-        types.StructField('NumberOfRatings', types.IntegerType(), True),
+        types.StructField('NumberOfRatings', types.FloatType(), True),
         types.StructField('Price', types.FloatType(), True),
         types.StructField('Year', types.IntegerType(), True)
     ])
