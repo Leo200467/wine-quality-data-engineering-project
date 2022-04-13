@@ -32,22 +32,22 @@ Wine ratings, pricings, number of ratings, country and region scrapped from Vivi
 
 # Technologies used: 
 
-* ## Programming Languages
-    * ### Python
-* ## Infrastructure as a Code
-    * ## Terraform
-* ## Cloud Infrastructure
-    * ### Azure VM Instance - Processing
-    * ### Azure Data Lake Gen 2 - Data Lake
-    * ### Azure Cosmos DB - Data Warehouse
-* ## Containerization
-    * ### Docker
-* ## Orchestration
-    * ### Airflow
-* ## Transformations
-    * ### PySpark
-* ## Visualization
-    * ### Microsoft Power BI
+* Programming Languages
+    * Python
+* Infrastructure as a Code
+    * Terraform
+* Cloud Infrastructure
+    * Azure VM Instance - Processing
+    * Azure Data Lake Gen 2 - Data Lake
+    * Azure Cosmos DB - Data Warehouse
+* Containerization
+    * Docker
+* Orchestration
+    * Airflow
+* Transformations
+    * PySpark
+* Visualization
+    * Microsoft Power BI
 
 ## More details on the architecture in the following diagram
 
