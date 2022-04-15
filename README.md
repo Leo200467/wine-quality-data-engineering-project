@@ -9,12 +9,12 @@ Wine is one of the most consumed beverages in the world and one of the oldests d
 This project will analyse data regarding 4 types of wine: 
 * Red; 
 * Rose; 
-* Sparkling and; 
+* Sparkling; 
 * White. 
 
-This types are rated by taste, with pricing and quantity of ratings, along with country and region that the wine belongs.
+This types are rated by taste, pricing in euros and quantity of ratings for each wine, along with country and region of the wine.
 
-The wines are segmented initialy by files with each type, our job is to join this data into a single accessible file. 
+The wines are segmented initialy by files with each type, part of our job is to join this data into a single accessible file that can be clustered by each country. 
 This process will also require that we do some transformations to normalize and get some early insights on our data.
 
 Step by step, our challenge is:
@@ -33,7 +33,7 @@ Wine ratings, pricings, number of ratings, country and region scrapped from Vivi
 # Technologies used: 
 
 * Programming Languages
-    * Python
+    * Python 3.8
 * Infrastructure as a Code
     * Terraform
 * Cloud Infrastructure
@@ -56,5 +56,10 @@ Wine ratings, pricings, number of ratings, country and region scrapped from Vivi
 # Reproducing the project
 
 Steps for reproducing this project can be found in this [file](/steps.md)
+
+# Dashboard
+
+The visualization is made using Power BI. You can take a look into the finished dashboard [here](https://app.powerbi.com/view?r=eyJrIjoiN2Y2NmMwZmUtNGFhNS00N2IzLTk2NWUtNjQyMTRhMWNhNDI2IiwidCI6IjA0NDc2NjVjLWViZTUtNDJiMy05ODU1LTRkMDdmY2M0YzBmZCJ9&pageName=ReportSection).
+
 
 # Special Thanks to Data Talks! 
