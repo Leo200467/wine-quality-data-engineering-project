@@ -59,6 +59,8 @@ Steps for reproducing this project can be found in this [file](/steps.md)
 
 # Dashboard
 
+![Architecture](/images/dashboard.png)
+
 The visualization is made using Power BI. You can take a look into the finished dashboard [here](https://app.powerbi.com/view?r=eyJrIjoiN2Y2NmMwZmUtNGFhNS00N2IzLTk2NWUtNjQyMTRhMWNhNDI2IiwidCI6IjA0NDc2NjVjLWViZTUtNDJiMy05ODU1LTRkMDdmY2M0YzBmZCJ9&pageName=ReportSection).
 
 
