@@ -1,8 +1,0 @@
-{
-  "extends": "airbnb-base",
-  "parser": "babel-eslint",
-  "plugins": [ "html" ],
-  "rules": {
-    "no-param-reassign": 1
-  }
-}
