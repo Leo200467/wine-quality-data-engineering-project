@@ -124,7 +124,7 @@ Extension ID: ms-vscode-remote.remote-ssh
 
 # After Terraform apply
 
-HTOP in VM terminal to see actual configs/machine specs.
+You can run a HTOP command in VM terminal to see actual configs/machine specs.
 You can press F10 after that.
 
 Now, follow this steps:
@@ -134,8 +134,8 @@ Now, follow this steps:
 * Select "Connect" and a new tab on the right side of the screen will popup; 
 * Select "Linux" and copy the command;
 * Now access your VM and run the command in terminal, this should add the files to your VM;
-* In your terminal, "cd /mnt/sharedstorage";
-* In your terminal, "sudo bash setup.sh". This bash script will do the heavy lifting of moving files, permissions and folder structure in this VM, it may take a while;
+* In your VM terminal, "cd /mnt/sharedstorage";
+* In your VM terminal, "sudo bash setup.sh". This bash script will do the heavy lifting of moving files, permissions and folder structure in this VM, it may take a while;
 * In your VM, go to /home/azureuser/airflow and type if you are accessing with SSH + VSCode ```code airflow.env``` or other type of editing command(vi, nano);
 * Go to back to your [Azure Resources Panel](https://portal.azure.com/#blade/HubsExtension/BrowseAll) and into your "storageXXXXXX";
 * Then, look for "Security + Network" tab, you can click on "Access Keys" and copy your CONNECTION STRING;
@@ -156,9 +156,10 @@ sudo docker-compose up
 
 # Airflow
 
-All DAGs in this project are configured to run after Airflow is initialized and you should not have to worry about it.
+All DAGs in this project are configured to run after Airflow is initialized and you should not have to worry about it. 
+However, you can access the Airflow instance running in your Azure VM by por forwarding.
 
-If you are using VSCode, after running 'sudo docker-compose up', it should prompt all port forwarding for you and alert that the port 8080 is being fowarded for your computer.
+If you are using VSCode, after running 'sudo docker-compose up', it should prompt all port forwarding for you and alert that the port 8080 is being fowarded for your computer, the all you have to do is access http://localhost:8080/. 
 
 If you are not using VSCode, then you will have to do a manual port forwarding. I recommend this tutorial for Azure CLI:
 * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/nsg-quickstart#quickly-open-a-port-for-a-vm
