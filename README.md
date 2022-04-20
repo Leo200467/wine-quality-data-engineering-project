@@ -65,4 +65,4 @@ The visualization is made using Power BI. You can take a look into the finished 
 
 
 
-# Special Thanks to (Data Talks)[https://datatalks.club/]! 
+# Special Thanks to [Data Talks](https://datatalks.club/)! 
