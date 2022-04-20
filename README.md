@@ -51,7 +51,7 @@ Wine ratings, pricings, number of ratings, country and region scrapped from Vivi
 
 ## More details on the architecture in the following diagram
 
-![Architecture](/images/DE%20Project%20Arch.jpg)
+![image](https://user-images.githubusercontent.com/58035475/163897728-cf139886-993e-4992-b107-b52ed6a32285.png)
 
 # Reproducing the project
 
@@ -62,6 +62,7 @@ Steps for reproducing this project can be found in this [file](/steps.md)
 ![Architecture](/images/dashboard.png)
 
 The visualization is made using Power BI. You can take a look into the finished dashboard [here](https://app.powerbi.com/view?r=eyJrIjoiN2Y2NmMwZmUtNGFhNS00N2IzLTk2NWUtNjQyMTRhMWNhNDI2IiwidCI6IjA0NDc2NjVjLWViZTUtNDJiMy05ODU1LTRkMDdmY2M0YzBmZCJ9&pageName=ReportSection).
+
 
 
 # Special Thanks to Data Talks! 
